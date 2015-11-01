@@ -21,11 +21,12 @@ my @entries;
 my %keys;
 my $count = 0;
 while (my $entry = Text::BibTeX::Entry->new( $bibfile ) ) {
-print $entry;
 	#next unless $entry->parse_ok;
-	die $entry->key unless $entry->parse_ok;
+	die "<Error> Could not parse : $entry->key" unless $entry->parse_ok;
 	my $key = $entry->key;
-	warn "Duplicate key $key" if exists $keys{ $key };
+	my $type = $entry->type;
+	die "<Error> not defined $type @ count :  $count" if not defined $key;
+	warn "Duplicate key $key @ $count" if exists $keys{ $key };
 	$keys{ $key } = 1;
 
 	#my $entry_text = $entry->print_s;
@@ -35,7 +36,6 @@ print $entry;
 	push @entries, $entry;
 }
 
-print $count;
 my @sorted = sort {
 	my ($a_key, $a_year, $a_title, $a_author) = ($a->key, $a->get('year', 'title', 'author'));
 	my ($b_key, $b_year, $b_title, $b_author) = ($b->key, $b->get('year', 'title', 'author'));
@@ -51,4 +51,4 @@ my @sorted = sort {
 for my $entry ( @sorted ) {
 	$entry->write ($newfile);
 }
-
+print "Done parsing bibtex. Parsed $count entries.\n";
