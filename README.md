@@ -1,6 +1,10 @@
 # Bibtex-Clean-Up
 This repository has script for Bibtex clean up.
 
+Installation:
+
+ sudo apt-get install perl
+ sudo apt-get install libtext-bibtex-perl
 
 Usage:
 
@@ -8,4 +12,6 @@ Usage:
  
 2. Run perl sort.pl
 
-3. You will get an outhout newthesis.bib
+3. Watch for warnings
+
+4. You will get an outhout newthesis.bib
