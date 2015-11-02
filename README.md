@@ -4,6 +4,7 @@ This repository has script for Bibtex clean up.
 Installation:
 
  sudo apt-get install perl
+ 
  sudo apt-get install libtext-bibtex-perl
 
 Usage:
