@@ -14,10 +14,12 @@ my $dirname = dirname(__FILE__);
 # You may change it to my $input_filename = $ARGV[1];
 print $dirname;
 my $input_filename = "${dirname}/thesis.bib";
+print $input_filename;
 
 # Temporary fix for bug https://rt.cpan.org/Public/Bug/Display.html?id=98806
 system(qq|perl -i -pe 's/month = (\\w+),/month = \\{\$1\\},/' $input_filename|);
-
+# Show all non unicode characters
+system(qq|grep --color="auto" -P -n "[\\x80-\\xFF]" $input_filename|);
 
 my $bibfile = Text::BibTeX::File->new($input_filename);
 my $newfile = Text::BibTeX::File->new(">${dirname}/newthesis.bib"); # Output file
