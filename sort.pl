@@ -7,6 +7,16 @@ use Text::BibTeX;
 use File::Basename;
 
 
+# TODO
+# - all inproceedings entries must have Proc. in their booktitle key
+# - if inproceedings::booktitle =~ /IEEE/, comment out the publisher if the publisher eq "IEEE"
+# - check for missing volume and/or number key in article entry type: not an error, but can be a problem;
+#   note that there may be a pubstate entry which means there would not be a volume
+# - if the entry has a DOI, use the doi2bibtex to check if the entry type is
+#   the same and if the publisher has extra fields --- this returns a warning
+# - if the pubstate key exists:
+#     - gather all unpublished entries
+#     - check that the date of publication is in the future
 
 my $dirname = dirname(__FILE__);
 
