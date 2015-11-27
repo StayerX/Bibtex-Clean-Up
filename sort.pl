@@ -19,6 +19,7 @@ print $input_filename;
 # Temporary fix for bug https://rt.cpan.org/Public/Bug/Display.html?id=98806
 system(qq|perl -i -pe 's/month = (\\w+),/month = \\{\$1\\},/' $input_filename|);
 # Show all non unicode characters
+# http://tex.stackexchange.com/questions/57743/how-to-write-%C3%A4-and-other-umlauts-and-accented-letters-in-bibliography
 system(qq|grep --color="auto" -P -n "[\\x80-\\xFF]" $input_filename|);
 
 my $bibfile = Text::BibTeX::File->new($input_filename);
