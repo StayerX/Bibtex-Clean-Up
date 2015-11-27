@@ -7,6 +7,32 @@ use Text::BibTeX;
 use File::Basename;
 
 
+# TODO
+# - all inproceedings entries must have Proc. in their booktitle key
+#   - IEEE Conference on Foo Bar => Proc. IEEE Conference on Foo Bar
+#     if( type eq "@inproceedings" && booktitle !~ /^Proc/ ) {
+#         s/^/Proc./g;
+#     }
+# - if inproceedings::booktitle =~ /IEEE/, comment out the publisher/organization if the publisher/organization eq "IEEE"
+# - check for missing volume and/or number key in article entry type: not an error, but can be a problem;
+#   note that there may be a pubstate entry which means there would not be a volume
+# - if the entry has a DOI, use the doi2bibtex to check if the entry type is
+#   the same and if the publisher has extra fields --- this returns a warning
+# - if the pubstate key exists:
+#     - gather all unpublished entries
+#     - check that the date of publication is in the future
+#
+# - if there are braces around the beginning of a title entry, there need to be 2 levels of {.}:
+#      title = {{ngLOC}: an n-gram-based {Bayesian} method for estimating the subcellular proteomes of eukaryotes}
+#        needs to be
+#      title = {{{ngLOC}}: an n-gram-based {Bayesian} method for estimating the subcellular proteomes of eukaryotes}
+#                ^     ^
+# - all other double braces should become single: {{FOO}} => {FOO}
+#      title = {{{ngLOC}} an n-gram-based {{Bayesian}} method for estimating the subcellular proteomes of eukaryotes}
+#          =>
+#      title = {{{ngLOC}}: an n-gram-based {Bayesian} method for estimating the subcellular proteomes of eukaryotes}
+# - use superscripts for ordinal numbers: 25th => 25^${th}$
+#   <https://en.wikipedia.org/wiki/Ordinal_number_(linguistics)>
 
 my $dirname = dirname(__FILE__);
 
