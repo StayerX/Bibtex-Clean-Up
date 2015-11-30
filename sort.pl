@@ -8,6 +8,7 @@ use File::Basename;
 
 
 # TODO
+# - Sort into sections (all articles together, all inproceedings etc)
 # - all inproceedings entries must have Proc. in their booktitle key
 #   - IEEE Conference on Foo Bar => Proc. IEEE Conference on Foo Bar
 #     if( type eq "@inproceedings" && booktitle !~ /^Proc/ ) {
@@ -72,15 +73,17 @@ while (my $entry = Text::BibTeX::Entry->new( $bibfile ) ) {
 }
 
 my @sorted = sort {
-	my ($a_key, $a_year, $a_title, $a_author) = ($a->key, $a->get('year', 'title', 'author'));
-	my ($b_key, $b_year, $b_title, $b_author) = ($b->key, $b->get('year', 'title', 'author'));
-	my ( $k,  $y, $t, $a ) = (
-		defined $a_key && defined $b_key ? $a_key cmp $b_key : 0,
-		defined $a_year && defined $b_year ? $a_year <=> $b_year : 0,
-		defined $a_title && defined $b_title ? $a_title cmp $b_title : 0,
-		defined $a_author && defined $b_author ? $a_author cmp $b_author : 0,
+	my ($a_type, $a_key, $a_year, $a_title, $a_author) = ($a->type, $a->key, $a->get('year', 'title', 'author'));
+	my ($b_type, $b_key, $b_year, $b_title, $b_author) = ($b->type, $b->key, $b->get('year', 'title', 'author'));
+	#print "$a_type . $b_type\n";
+	my ( $ty, $k,  $y, $t, $a ) = (
+		defined $a_type 	&& defined $b_type ? $a_type cmp $b_type : 0,
+		defined $a_key 		&& defined $b_key ? $a_key cmp $b_key : 0,
+		defined $a_year 	&& defined $b_year ? $a_year <=> $b_year : 0,
+		defined $a_title 	&& defined $b_title ? $a_title cmp $b_title : 0,
+		defined $a_author 	&& defined $b_author ? $a_author cmp $b_author : 0,
 	);
-	$k or $y or $t or $a;
+	$ty or $k or $y or $t or $a;
 } @entries;
 
 for my $entry ( @sorted ) {
